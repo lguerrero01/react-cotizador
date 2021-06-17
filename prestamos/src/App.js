@@ -4,6 +4,7 @@ import { Fragment, useState } from 'react';
 import Formulario from './components/Formulario';
 import Mensaje from './components/Mensaje';
 import Resultado from './components/Resultado';
+import Spinner from './components/Spinner';
 
 
 
@@ -12,10 +13,12 @@ function App() {
   const [cantidad, guardarCantidad] = useState(0);
   const [plazo, guardarPlazo] = useState('');
   const [total, guardarTotal] = useState(0);
-  
+  const [cargando, guardarCargando] = useState(false);
 
   let componente;
-  if (total === 0) {
+  if (cargando) {
+    componente = <Spinner/>
+  } else if (total === 0) {
     componente = <Mensaje/>
   } else {
     componente = <Resultado
@@ -24,11 +27,12 @@ function App() {
                   cantidad={cantidad}
                   />
   }
+  
 
 
   return (
     <Fragment> 
-      <Header titulo="cotizador"/>
+      <Header titulo="cotizador de Prestamos"/>
       <div className="container"> 
         <Formulario 
           cantidad = {cantidad} 
@@ -37,6 +41,7 @@ function App() {
           guardarPlazo = {guardarPlazo}
           total = {total}
           guardarTotal = {guardarTotal}
+          guardarCargando = {guardarCargando}
         /> 
         <div className="mensajes"> 
           {componente}

@@ -4,7 +4,7 @@ import calcularTotal from './../helpers/helpers';
 
 const Formulario = (props) => {
     //Definir un State
-   const {guardarCantidad, cantidad, plazo, guardarPlazo, total, guardarTotal} = props;
+   const {guardarCantidad, cantidad, plazo, guardarPlazo, guardarTotal, guardarCargando } = props;
     const [error, guardarError] = useState(false);
     
     const calcularPrestamo = (e) => {
@@ -14,15 +14,20 @@ const Formulario = (props) => {
             guardarError(true);
             return;
         }
+        //elimina el error previo
         guardarError(false);
-        const total = calcularTotal(cantidad,plazo);
-        guardarTotal(total);
+        guardarCargando(true);
+        
+        setTimeout(() => {
+            const total = calcularTotal(cantidad,plazo);
+            guardarTotal(total);
+            guardarCargando(false);
+        }, 2000);
+       
     }
     return (  
         <Fragment> 
             <form onSubmit={calcularPrestamo}>
-                {cantidad}
-                {plazo}
                 <div className="row">
                     <div>
                         <label>Cantidad Prestamo</label>
